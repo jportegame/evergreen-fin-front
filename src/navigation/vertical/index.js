@@ -1,7 +1,7 @@
 export default [
   {
-    title: 'Home',
-    route: 'home',
-    icon: 'HomeIcon',
+    title: 'Customers',
+    route: 'customers',
+    icon: 'UserIcon',
   },
 ]
