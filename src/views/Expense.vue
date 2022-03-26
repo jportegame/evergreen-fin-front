@@ -105,6 +105,7 @@
                 <b-form-input
                   id="input-due_date"
                   v-model="form.due_date"
+                  type="date"
                   placeholder="Fecha vencimiento"
                 />
               </b-form-group>
@@ -235,6 +236,7 @@ export default {
       items: [],
       customers: [],
       form: {
+        id: '',
         client_id: '',
         value: '',
         concept: '',
@@ -253,7 +255,7 @@ export default {
   methods: {
     async getCustomers() {
       this.loading = true
-      await axios.get('https://gorest.co.in/public/v2/users').then(res => {
+      await axios.get('https://evergreen-fin-back.herokuapp.com/client/').then(res => {
         if (res.status === 200) {
           this.customers = res.data
         }
@@ -273,7 +275,7 @@ export default {
     },
     async viewData() {
       this.loading = true
-      await axios.get('https://gorest.co.in/public/v2/users').then(res => {
+      await axios.get('https://evergreen-fin-back.herokuapp.com/expense/').then(res => {
         if (res.status === 200) {
           this.items = res.data
         }
@@ -293,6 +295,7 @@ export default {
     },
     showUpdate(item) {
       this.update = true
+      this.form.id = item.id
       this.form.client_id = item.client_id
       this.form.value = item.value
       this.form.concept = item.concept
@@ -311,7 +314,7 @@ export default {
     },
     async addExpense() {
       this.loading = true
-      await axios.post('https://gorest.co.in/public/v2/users', this.form).then(res => {
+      await axios.post('https://evergreen-fin-back.herokuapp.com/expense/', this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
         }
@@ -331,7 +334,7 @@ export default {
     },
     async updateExpense() {
       this.loading = true
-      await axios.put('https://gorest.co.in/public/v2/users', this.form).then(res => {
+      await axios.put(`https://evergreen-fin-back.herokuapp.com/expense/${this.form.id}`, this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
         }
@@ -351,7 +354,7 @@ export default {
     },
     async deleteExpense(item) {
       this.loading = true
-      await axios.delete(`https://gorest.co.in/public/v2/users/${item.id}`, this.form).then(res => {
+      await axios.delete(`https://evergreen-fin-back.herokuapp.com/expense/${item.id}`, this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
         }
