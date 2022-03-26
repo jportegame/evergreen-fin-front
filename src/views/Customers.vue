@@ -247,6 +247,7 @@ export default {
   },
   methods: {
     async viewData() {
+      this.loading = true
       await axios.get('https://gorest.co.in/public/v2/users').then(res => {
         if (res.status === 200) {
           this.items = res.data
@@ -284,6 +285,7 @@ export default {
       this.form.city = ''
     },
     async addCustomer() {
+      this.loading = true
       await axios.post('https://gorest.co.in/public/v2/users', this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
@@ -303,6 +305,7 @@ export default {
       })
     },
     async updateCustomer() {
+      this.loading = true
       await axios.put('https://gorest.co.in/public/v2/users', this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
@@ -322,6 +325,7 @@ export default {
       })
     },
     async deleteCustomer(item) {
+      this.loading = true
       await axios.delete(`https://gorest.co.in/public/v2/users/${item.id}`, this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
