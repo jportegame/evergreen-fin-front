@@ -4,9 +4,9 @@ export default [
     icon: 'FileIcon',
     children: [
       {
-        title: 'Home',
-        route: 'home',
-        icon: 'HomeIcon',
+        title: 'Factura',
+        route: 'invoce',
+        icon: 'FolderPlusIcon',
       },
     ],
   },

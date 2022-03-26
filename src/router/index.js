@@ -12,13 +12,13 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('@/views/Home.vue'),
+      name: 'invoce',
+      component: () => import('@/views/Invoce.vue'),
       meta: {
-        pageTitle: 'Home',
+        pageTitle: 'Factura',
         breadcrumb: [
           {
-            text: 'Home',
+            text: 'Factura',
             active: true,
           },
         ],
