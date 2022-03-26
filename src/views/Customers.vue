@@ -49,11 +49,11 @@
                 label-cols="4"
                 label-cols-lg="2"
                 label="Identificacion"
-                label-for="input-identify"
+                label-for="input-identifier"
               >
                 <b-form-input
-                  id="input-identify"
-                  v-model="form.identify"
+                  id="input-identifier"
+                  v-model="form.identifier"
                   placeholder="Identificacion"
                 />
               </b-form-group>
@@ -208,7 +208,7 @@ export default {
           key: 'id', label: 'Id',
         },
         {
-          key: 'identify', label: 'Identificacion',
+          key: 'identifier', label: 'Identificacion',
         },
         {
           key: 'name', label: 'Nombre',
@@ -231,7 +231,8 @@ export default {
       ],
       items: [],
       form: {
-        identify: '',
+        id: '',
+        identifier: '',
         name: '',
         email: '',
         phone: '',
@@ -248,7 +249,7 @@ export default {
   methods: {
     async viewData() {
       this.loading = true
-      await axios.get('https://gorest.co.in/public/v2/users').then(res => {
+      await axios.get('https://evergreen-fin-back.herokuapp.com/client/').then(res => {
         if (res.status === 200) {
           this.items = res.data
         }
@@ -268,7 +269,8 @@ export default {
     },
     showUpdate(item) {
       this.update = true
-      this.form.identify = item.identify
+      this.form.id = item.id
+      this.form.identifier = item.identifier
       this.form.name = item.name
       this.form.email = item.email
       this.form.phone = item.phone
@@ -277,7 +279,7 @@ export default {
     },
     showForm() {
       this.update = false
-      this.form.identify = ''
+      this.form.identifier = ''
       this.form.name = ''
       this.form.email = ''
       this.form.phone = ''
@@ -286,7 +288,7 @@ export default {
     },
     async addCustomer() {
       this.loading = true
-      await axios.post('https://gorest.co.in/public/v2/users', this.form).then(res => {
+      await axios.post('https://evergreen-fin-back.herokuapp.com/client/', this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
         }
@@ -306,7 +308,7 @@ export default {
     },
     async updateCustomer() {
       this.loading = true
-      await axios.put('https://gorest.co.in/public/v2/users', this.form).then(res => {
+      await axios.put(`https://evergreen-fin-back.herokuapp.com/client/${this.form.id}`, this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
         }
@@ -326,7 +328,7 @@ export default {
     },
     async deleteCustomer(item) {
       this.loading = true
-      await axios.delete(`https://gorest.co.in/public/v2/users/${item.id}`, this.form).then(res => {
+      await axios.delete(`https://evergreen-fin-back.herokuapp.com/client/${item.id}`, this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
         }
