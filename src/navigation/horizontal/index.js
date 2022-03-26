@@ -5,7 +5,7 @@ export default [
     children: [
       {
         title: 'Factura',
-        route: 'invoce',
+        route: 'invoice',
         icon: 'FolderPlusIcon',
       },
     ],

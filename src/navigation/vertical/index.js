@@ -1,7 +1,7 @@
 export default [
   {
     title: 'Factura',
-    route: 'invoce',
+    route: 'invoice',
     icon: 'FolderPlusIcon',
   },
 ]

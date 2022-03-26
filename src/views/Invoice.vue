@@ -14,7 +14,7 @@
               <feather-icon icon="RefreshCcwIcon" />
             </b-button>
             <b-button
-              v-b-modal.modal-invoce
+              v-b-modal.modal-invoice
               variant="primary"
               class="btn-icon"
               @click="showForm"
@@ -35,12 +35,12 @@
           </div>
         </b-col>
         <b-modal
-          id="modal-invoce"
+          id="modal-invoice"
           title="Formulario Factura"
           ok-only
           size="lg"
           :ok-title="update?'Actualizar':'Guardar'"
-          @ok="update?updateInvoce():addInvoce()"
+          @ok="update?updateInvoice():addInvoice()"
         >
           <p>Completa los datos para registrar una nueva factura.</p>
           <b-row>
@@ -71,7 +71,7 @@
               >
                 <b-form-input
                   id="input-due-date"
-                  v-model="form.dueDate"
+                  v-model="form.due_date"
                   type="date"
                   placeholder="Fecha vencimiento"
                 />
@@ -101,7 +101,7 @@
               >
                 <b-form-select
                   id="input-payment-method"
-                  v-model="form.paymentMethod"
+                  v-model="form.payment_method"
                   placeholder="Metodo de pago"
                   :options="paymentMethodOptions"
                 />
@@ -129,7 +129,7 @@
               >
                 <b-form-input
                   id="input-quotes"
-                  v-model="form.numberQuotas"
+                  v-model="form.number_quotas"
                   type="number"
                   placeholder="Cuotas"
                 />
@@ -224,7 +224,7 @@
               <div class="d-flex flex-row justify-content-center">
                 <b-button
                   v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                  v-b-modal.modal-invoce
+                  v-b-modal.modal-invoice
                   variant="outline-primary"
                   size="sm"
                   class="mr-25"
@@ -237,7 +237,7 @@
                   v-ripple.400="'rgba(113, 102, 240, 0.15)'"
                   variant="outline-danger"
                   size="sm"
-                  @click="deleteInvoce(data.item)"
+                  @click="deleteInvoice(data.item)"
                 >
                   <feather-icon icon="TrashIcon" />
 
@@ -347,19 +347,19 @@ export default {
           key: 'date', label: 'Fecha',
         },
         {
-          key: 'dueDate', label: 'Fecha Vencimiento',
+          key: 'due_date', label: 'Fecha Vencimiento',
         },
         {
           key: 'observations', label: 'Observaciones',
         },
         {
-          key: 'paymentMethod', label: 'Metodo de pago',
+          key: 'payment_method', label: 'Metodo de pago',
         },
         {
           key: 'periodicity', label: 'Periodicidad',
         },
         {
-          key: 'numberQuotas', label: 'Cuotas',
+          key: 'number_quotas', label: 'Cuotas',
         },
         {
           key: 'items', label: 'Items',
@@ -371,37 +371,7 @@ export default {
           key: 'actions', label: '',
         },
       ],
-      items: [
-        {
-          id: '0',
-          date: '03-03-2022',
-          dueDate: '03-03-2025',
-          observations: 'ninguna',
-          paymentMethod: 'Debito',
-          periodicity: 'Mensual',
-          numberQuotas: '20',
-          items: [
-            {
-              id: 0,
-              name: 'Producto 1',
-              price: 0,
-              quantity: 0,
-            },
-            {
-              id: 0,
-              name: 'Producto 2',
-              price: 0,
-              quantity: 0,
-            },
-          ],
-          seller: {
-            id: 0,
-            name: 'Yamile Perdomo',
-            identification: '4322342',
-            observations: 'Ninguna',
-          },
-        },
-      ],
+      items: [],
       fieldsItems: [
         {
           key: 'id', label: 'Id',
@@ -429,13 +399,14 @@ export default {
         { value: 'Anual', text: 'Anual' },
       ],
       form: {
+        id: '',
         date: '',
         dueDate: '',
         observations: '',
         paymentMethod: '',
         periodicity: '',
         numberQuotas: '',
-        client: 0,
+        client_id: 0,
         items: [
           {
             id: 0,
@@ -461,9 +432,9 @@ export default {
   methods: {
     async viewData() {
       this.loading = true
-      await axios.get('https://gorest.co.in/public/v2/users').then(res => {
+      await axios.get('https://evergreen-fin-back.herokuapp.com/invoice/').then(res => {
         if (res.status === 200) {
-          // this.items = res.data
+          this.items = res.data
         }
         this.loading = false
       }).catch(error => {
@@ -481,23 +452,24 @@ export default {
     },
     showUpdate(item) {
       this.update = true
+      this.form.id = item.id
       this.form.date = item.date
-      this.form.dueDate = item.dueDate
+      this.form.due_date = item.due_date
       this.form.observations = item.observations
-      this.form.paymentMethod = item.paymentMethod
+      this.form.payment_method = item.payment_method
       this.form.periodicity = item.periodicity
-      this.form.numberQuotas = item.numberQuotas
+      this.form.number_quotas = item.number_quotas
       this.form.items = item.items
       this.form.seller = item.seller
     },
     showForm() {
       this.update = false
       this.form.date = ''
-      this.form.dueDate = ''
+      this.form.due_date = ''
       this.form.observations = ''
-      this.form.paymentMethod = ''
+      this.form.payment_method = ''
       this.form.periodicity = ''
-      this.form.numberQuotas = ''
+      this.form.number_quotas = ''
       this.form.items = [
         {
           id: 0,
@@ -513,9 +485,9 @@ export default {
         observations: 'Ninguna',
       }
     },
-    async addInvoce() {
+    async addInvoice() {
       this.loading = true
-      await axios.post('https://gorest.co.in/public/v2/users', this.form).then(res => {
+      await axios.post('https://evergreen-fin-back.herokuapp.com/invoice/', this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
         }
@@ -533,9 +505,9 @@ export default {
         this.loading = false
       })
     },
-    async updateInvoce() {
+    async updateInvoice() {
       this.loading = true
-      await axios.put('https://gorest.co.in/public/v2/users', this.form).then(res => {
+      await axios.put(`https://evergreen-fin-back.herokuapp.com/invoice/${this.form.id}`, this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
         }
@@ -553,9 +525,9 @@ export default {
         this.loading = false
       })
     },
-    async deleteInvoce(item) {
+    async deleteInvoice(item) {
       this.loading = true
-      await axios.delete(`https://gorest.co.in/public/v2/users/${item.id}`, this.form).then(res => {
+      await axios.delete(`https://evergreen-fin-back.herokuapp.com/invoice/${item.id}`, this.form).then(res => {
         if (res.status === 200) {
           this.viewData()
         }

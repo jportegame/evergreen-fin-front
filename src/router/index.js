@@ -12,8 +12,8 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'invoce',
-      component: () => import('@/views/Invoce.vue'),
+      name: 'invoice',
+      component: () => import('@/views/Invoice.vue'),
       meta: {
         pageTitle: 'Factura',
         breadcrumb: [
